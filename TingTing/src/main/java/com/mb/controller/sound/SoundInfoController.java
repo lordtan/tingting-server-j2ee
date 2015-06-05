@@ -74,9 +74,9 @@ public class SoundInfoController {
 	 * @return
 	 */
 	@RequestMapping(value="/publish",method=RequestMethod.POST)
-	public @ResponseBody void publish(@RequestBody String fileInfo, HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody void publish(@RequestBody String sound, HttpServletRequest request, HttpServletResponse response){
 		try {
-			soundService.publish(request.getInputStream(), fileInfo);
+			soundService.publish(request.getInputStream(), sound);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -19,7 +19,7 @@ public interface ISoundService {
 	 * @param sound 文件信息
 	 * @return
 	 */
-	public Message publish(InputStream content, String fileInfo);
+	public Message publish(InputStream content, String sound);
 	
 	/**
 	 * 取消发布，删除声音的相关信息以及实体文件
