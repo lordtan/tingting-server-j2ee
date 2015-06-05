@@ -15,11 +15,11 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @date 2015年5月21日
  */
 public class JsonUtil {
-	private static ObjectMapper objectMapper = new ObjectMapper();
+	private static ObjectMapper objectMapper = null;
 	
 	public static ObjectMapper getObjectMapper(){
 		if(null==objectMapper){
-			return new ObjectMapper();
+			objectMapper = new ObjectMapper();
 		}
 		return objectMapper;
 	}
@@ -32,7 +32,7 @@ public class JsonUtil {
 	 */
 	public static <T> T json2obj(String json, Class<T> type){
 		try {
-			return (T) objectMapper.readValue(json, type);
+			return (T) getObjectMapper().readValue(json, type);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
@@ -50,7 +50,7 @@ public class JsonUtil {
 	 */
 	public static String obj2json(Object obj){
 		 try {
-			return objectMapper.writeValueAsString(obj);
+			return getObjectMapper().writeValueAsString(obj);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

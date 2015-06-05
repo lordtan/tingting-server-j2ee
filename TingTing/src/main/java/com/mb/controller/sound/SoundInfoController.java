@@ -73,9 +73,12 @@ public class SoundInfoController {
 	 * @param response 响应
 	 */
 	@RequestMapping(value="/store",method=RequestMethod.POST)
-	public void store(@RequestBody String fileId, @RequestBody String type, HttpServletRequest request, HttpServletResponse response){
+	public void store(@RequestBody String fileInfo, HttpServletRequest request, HttpServletResponse response){
 		try {
-			soundService.store(request.getInputStream(), fileId, type);
+			if("".equals(fileInfo)||null==fileInfo){
+				return;
+			}
+			soundService.store(request.getInputStream(), fileInfo);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

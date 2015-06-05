@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import com.mb.beans.common.Message;
+import com.mb.beans.momgo.FileInfo;
 import com.mb.beans.momgo.Search;
 import com.mb.beans.momgo.Sound;
 import com.mb.common.constant.IMongoCollections;
@@ -33,59 +34,31 @@ public class SoundService implements ISoundService, IMongoCollections{
 	@Resource(type=MongoDao.class)
 	private IMongoDao mongoDao;
 
-	private ObjectMapper objectMapper = JsonUtil.getObjectMapper();
 
 	public Message publish(String sound) {
 		Message mesg = Message.getInstance();
-		try {
-			Sound sod = objectMapper.readValue(sound, Sound.class);
-			mongoDao.insert(sod, SOUND);
-			mesg.setMsg("发布成功");
-			mesg.setState(Message.SUCCESS);
-		} catch (JsonParseException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("发布失败");
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("发布失败");
-			e.printStackTrace();
-		} catch (IOException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("发布失败");
-			e.printStackTrace();
-		}
+		Sound sod = JsonUtil.json2obj(sound, Sound.class);
+		mongoDao.insert(sod, SOUND);
+		mesg.setMsg("发布成功");
+		mesg.setState(Message.SUCCESS);
 
 		return mesg;
 	}
 
 	public Message cancel(String sound) {
 		Message mesg = Message.getInstance();
-		try {
-			Sound sod = objectMapper.readValue(sound, Sound.class);
-			mongoDao.removeByProperty("id", sod.getId(), SOUND);  //删除声音信息
-			mongoDao.removeFileEntity(sod.getFileId());  //删除实体
-			mesg.setMsg("取消成功");
-			mesg.setState(Message.SUCCESS);
-		} catch (JsonParseException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("取消失败");
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("取消失败");
-			e.printStackTrace();
-		} catch (IOException e) {
-			mesg.setState(Message.FAILED);
-			mesg.setMsg("取消失败");
-			e.printStackTrace();
-		}
+		Sound sod = JsonUtil.json2obj(sound, Sound.class);
+		mongoDao.removeByProperty("id", sod.getId(), SOUND);  //删除声音信息
+		mongoDao.removeFileEntity(sod.getFileId());  //删除实体
+		mesg.setMsg("取消成功");
+		mesg.setState(Message.SUCCESS);
 
 		return mesg;
 	}
 
-	public GridFSFile store(InputStream content, String fileId, String type) {
-		return mongoDao.storeFile(content, fileId, type);
+	public GridFSFile store(InputStream content, String fileInfo) {
+		FileInfo file = JsonUtil.json2obj(fileInfo, FileInfo.class);
+		return mongoDao.storeFile(content, file.getFileId(), file.getType());
 	}
 
 	public GridFSDBFile listen(String fileId) {
@@ -101,21 +74,9 @@ public class SoundService implements ISoundService, IMongoCollections{
 	}
 
 	public Message search(String searchStr) {
-		Search search = null;
-		try {
-			search = objectMapper.readValue(searchStr, Search.class);
-			if(search.getCenterX()==0 || search.getCenterY()==0 || search.getRadius()==0){
-				return Message.getInstance().setState(Message.FAILED).setMsg("参数不完整");
-			}
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-			return Message.getInstance().setState(Message.FAILED).setMsg("搜索附近声音失败");
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			return Message.getInstance().setState(Message.FAILED).setMsg("搜索附近声音失败");
-		} catch (IOException e) {
-			e.printStackTrace();
-			return Message.getInstance().setState(Message.FAILED).setMsg("搜索附近声音失败");
+		Search search = JsonUtil.json2obj(searchStr, Search.class);
+		if(search.getCenterX()==0 || search.getCenterY()==0 || search.getRadius()==0){
+			return Message.getInstance().setState(Message.FAILED).setMsg("参数不完整");
 		}
 		
 		return search(search.getCenterX(),search.getCenterY(),search.getRadius());

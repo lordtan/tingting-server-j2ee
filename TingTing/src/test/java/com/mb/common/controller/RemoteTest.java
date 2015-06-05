@@ -16,13 +16,19 @@ public class RemoteTest {
 		
 		System.out.println(IServerRemote.DEFAULT_URL+"/user/login");
 //		String result = HttpHelper.sendPostData("http://localhost:8080/TingTing/user/register",
-		String result = HttpHelper.sendPostData(IServerRemote.DEFAULT_URL+"/user/login", user.toString());
+//		String result = HttpHelper.sendPostData(IServerRemote.DEFAULT_URL+"/user/login", user.toString());
+//		System.out.println(result);
+//		String result = HttpHelper.sendPostData(IServerRemote.DEFAULT_URL+"/sound/store", "sdasd");
+		Map<String,String> params = new HashMap<String, String>();
+		params.put("fileId", "123");
+		params.put("type", "mp3");
+		String result = HttpHelper.sendPost(IServerRemote.DEFAULT_URL+"/sound/store", params);
 		System.out.println(result);
 
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("account", "lordtan");
-		params.put("password", "1234");
-		System.out.println(params.toString());
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("account", "lordtan");
+//		params.put("password", "1234");
+//		System.out.println(params.toString());
 	}
 
 }
