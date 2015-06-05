@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mb.beans.common.Message;
+import com.mb.beans.momgo.FileInfo;
+import com.mb.common.util.JsonUtil;
 import com.mb.service.ISoundService;
 import com.mb.service.sound.SoundService;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -67,31 +69,17 @@ public class SoundInfoController {
 	}
 	
 	/**
-	 * 存储声音实体文件
-	 * @param fileId 文件id
-	 * @param request 请求
-	 * @param response 响应
-	 */
-	@RequestMapping(value="/store",method=RequestMethod.POST)
-	public void store(@RequestBody String fileInfo, HttpServletRequest request, HttpServletResponse response){
-		try {
-			if("".equals(fileInfo)||null==fileInfo){
-				return;
-			}
-			soundService.store(request.getInputStream(), fileInfo);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
 	 * 发布声音
 	 * @param sound 声音相关信息
 	 * @return
 	 */
 	@RequestMapping(value="/publish",method=RequestMethod.POST)
-	public @ResponseBody Message publish(@RequestBody String sound){
-		return soundService.publish(sound);
+	public @ResponseBody void publish(@RequestBody String fileInfo, HttpServletRequest request, HttpServletResponse response){
+		try {
+			soundService.publish(request.getInputStream(), fileInfo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

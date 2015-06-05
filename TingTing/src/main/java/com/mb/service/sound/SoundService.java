@@ -35,10 +35,12 @@ public class SoundService implements ISoundService, IMongoCollections{
 	private IMongoDao mongoDao;
 
 
-	public Message publish(String sound) {
+	public Message publish(InputStream content, String fileInfo) {
 		Message mesg = Message.getInstance();
-		Sound sod = JsonUtil.json2obj(sound, Sound.class);
+		FileInfo file = JsonUtil.json2obj(fileInfo, FileInfo.class);
+		Sound sod = JsonUtil.json2obj(file.getSound(), Sound.class);
 		mongoDao.insert(sod, SOUND);
+		mongoDao.storeFile(content, file.getFileId(), file.getType());
 		mesg.setMsg("发布成功");
 		mesg.setState(Message.SUCCESS);
 
@@ -56,9 +58,8 @@ public class SoundService implements ISoundService, IMongoCollections{
 		return mesg;
 	}
 
-	public GridFSFile store(InputStream content, String fileInfo) {
-		FileInfo file = JsonUtil.json2obj(fileInfo, FileInfo.class);
-		return mongoDao.storeFile(content, file.getFileId(), file.getType());
+	public GridFSFile store(InputStream content, String fileId, String type) {
+		return mongoDao.storeFile(content, fileId, type);
 	}
 
 	public GridFSDBFile listen(String fileId) {

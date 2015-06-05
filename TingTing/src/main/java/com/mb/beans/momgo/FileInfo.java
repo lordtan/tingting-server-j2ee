@@ -11,6 +11,7 @@ public class FileInfo {
 
 	private String fileId; //文件id
 	private String type;  //文件类型
+	private String sound;  //声音信息json文件，对应的bean为Sound
 	
 	public String getFileId() {
 		return fileId;
@@ -24,7 +25,12 @@ public class FileInfo {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+	public String getSound() {
+		return sound;
+	}
+	public void setSound(String sound) {
+		this.sound = sound;
+	}
 	@Override
 	public String toString() {
 		return JsonUtil.obj2json(this);

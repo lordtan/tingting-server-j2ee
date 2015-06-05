@@ -3,7 +3,6 @@ package com.mb.service;
 import java.io.InputStream;
 
 import com.mb.beans.common.Message;
-import com.mb.beans.momgo.FileInfo;
 import com.mb.beans.momgo.Search;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
@@ -17,10 +16,10 @@ public interface ISoundService {
 
 	/**
 	 * 发布声音，存储声音相关信息，不存储实体文件
-	 * @param sound 声音
+	 * @param sound 文件信息
 	 * @return
 	 */
-	public Message publish(String sound);
+	public Message publish(InputStream content, String fileInfo);
 	
 	/**
 	 * 取消发布，删除声音的相关信息以及实体文件
@@ -32,10 +31,11 @@ public interface ISoundService {
 	/**
 	 * 存储声音，存储实体文件
 	 * @param content 声音内容
-	 * @param file 文件信息
+	 * @param fileId 文件id
+	 * @param type 文件类型
 	 * @return
 	 */
-	public GridFSFile store(InputStream content, String fileInfo);
+	public GridFSFile store(InputStream content, String fileId, String type);
 	
 	/**
 	 * 收听声音
