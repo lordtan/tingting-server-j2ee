@@ -15,8 +15,8 @@ public class Sound {
 	private String fileId; //声音文件id
 	private String title; //标题
 	private String type; //类型
-	private String lat; //纬度，百度坐标的前一个值
-	private String lng; //经度，百度坐标的后一个值
+	private String lat; //纬度，百度/高德坐标的前一个值
+	private String lng; //经度，百度/高德坐标的后一个值
 	private String gpsLat; //从手机的gps中读取的真实纬度，不是经过百度地图转换过的
 	private String gpsLng; //从手机的gps中读取的真实 经度，不是经过百度地图转换过的
 	private int isActive; //是否激活，如果存在时间过长会失去激活
