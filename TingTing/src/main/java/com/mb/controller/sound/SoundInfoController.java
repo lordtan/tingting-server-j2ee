@@ -1,6 +1,7 @@
 package com.mb.controller.sound;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mb.beans.common.Message;
 import com.mb.beans.momgo.FileInfo;
@@ -74,13 +77,14 @@ public class SoundInfoController {
 	 * @return
 	 */
 	@RequestMapping(value="/publish",method=RequestMethod.POST)
-	public @ResponseBody void publish(@RequestBody String sound, HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody void publish(@RequestParam("sound") String sound, @RequestParam("file") MultipartFile file){
 		try {
-			soundService.publish(request.getInputStream(), sound);
+			soundService.publish(file.getInputStream(), sound);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	/**
 	 * 取消发布
