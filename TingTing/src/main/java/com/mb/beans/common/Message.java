@@ -13,7 +13,7 @@ public class Message {
 	
 	private String msg;  //消息内容
 	private int state = FAILED; //状态，只有两种状态，成功或者失败，默认为失败
-	
+	private String data;  //返回数据
 	public String getMsg() {
 		return msg;
 	}
@@ -28,7 +28,13 @@ public class Message {
 		this.state = state;
 		return this;
 	}
-	
+	public String getData() {
+		return data;
+	}
+	public Message setData(String data) {
+		this.data = data;
+		return this;
+	}
 	public static Message getInstance(){
 		return new Message();
 	} 

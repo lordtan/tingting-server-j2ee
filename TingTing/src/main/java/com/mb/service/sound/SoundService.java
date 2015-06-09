@@ -70,7 +70,7 @@ public class SoundService implements ISoundService, IMongoCollections{
 
 	public Message search(double centerX, double centerY, double radius) {
 		List<Sound> sounds = mongoDao.geoNear(centerX, centerY, radius, SOUND, Sound.class);
-		return Message.getInstance().setState(Message.SUCCESS).setMsg(JsonUtil.obj2json(sounds)); //男人就是要长一点
+		return Message.getInstance().setState(Message.SUCCESS).setMsg("发现声音").setData(JsonUtil.obj2json(sounds)); //男人就是要长一点
 	}
 
 	public Message search(String searchStr) {

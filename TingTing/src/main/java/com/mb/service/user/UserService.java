@@ -36,7 +36,8 @@ public class UserService implements IUserService {
 		Message mesg = new Message();
 		if(null!=users && users.size()>0){
 			String updateSql = " update t_user set loginDate=? where account=? and password=? ";
-			sqldao.update(updateSql, new Object [] {new Date().getTime(),u.getAccount(),u.getPassword()});
+			sqldao.update(updateSql, new Object [] {new Date().getTime(),u.getAccount(),u.getPassword()}); //更新最后登录时间
+			mesg.setData(JsonUtil.obj2json(users.get(0))); //返回用户登陆信息
 			mesg.setState(Message.SUCCESS);
 			mesg.setMsg("登陆成功");
 		}else{
@@ -71,6 +72,7 @@ public class UserService implements IUserService {
 		u.setCreatedDate(new Date().getTime());
 		u.setIsActive(1);
 		sqldao.insert(u);
+		mesg.setData(u.toString());
 		return mesg.setState(Message.SUCCESS).setMsg(u.getId());
 	}
 

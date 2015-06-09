@@ -19,6 +19,7 @@ public class Sound {
 	private String lng; //经度，百度/高德坐标的后一个值
 	private String gpsLat; //从手机的gps中读取的真实纬度，不是经过百度地图转换过的
 	private String gpsLng; //从手机的gps中读取的真实 经度，不是经过百度地图转换过的
+	private String address; //当前位置地址
 	private int isActive; //是否激活，如果存在时间过长会失去激活
 	private long great; //被顶次数
 	private long degrade; //被踩次数
@@ -109,7 +110,12 @@ public class Sound {
 	public void setCreatedDate(long createdDate) {
 		this.createdDate = createdDate;
 	}
-	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
 		return JsonUtil.obj2json(this);
