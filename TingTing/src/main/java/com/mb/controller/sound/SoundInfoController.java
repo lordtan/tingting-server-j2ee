@@ -77,12 +77,13 @@ public class SoundInfoController {
 	 * @return
 	 */
 	@RequestMapping(value="/publish",method=RequestMethod.POST)
-	public @ResponseBody void publish(@RequestParam("sound") String sound, @RequestParam("file") MultipartFile file){
+	public @ResponseBody Message publish(@RequestParam("sound") String sound, @RequestParam("file") MultipartFile file){
 		try {
-			soundService.publish(file.getInputStream(), sound);
+			return soundService.publish(file.getInputStream(), sound);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return Message.getInstance().setState(Message.FAILED).setMsg("发布声音失败");
 	}
 	
 	
