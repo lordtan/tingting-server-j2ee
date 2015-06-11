@@ -29,4 +29,11 @@ public interface IUserService {
 	 * @return
 	 */
 	public String modify(String property, String value);
+	
+	/**
+	 * 根据用户id查询用户信息
+	 * @param id
+	 * @return
+	 */
+	public Message findUser(String id);
 }

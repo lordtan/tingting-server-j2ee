@@ -82,4 +82,13 @@ public class UserService implements IUserService {
 		return null;
 	}
 
+	public Message findUser(String id) {
+		String sql = "select * from t_user where id=?";
+		List<User> users = sqldao.query(sql, new Object []{id}, User.class);
+		if(null==users || users.size()<1){
+			return Message.getInstance().setState(Message.FAILED).setData(null);
+		}
+		User user = users.get(0);
+		return Message.getInstance().setState(Message.SUCCESS).setData(user.toString());
+	}
 }

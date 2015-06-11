@@ -34,4 +34,9 @@ public class UserInfoController {
 	public @ResponseBody Message register(@RequestBody String user){
 		return userService.register(user);
 	}
+	
+	@RequestMapping(value="/find",method=RequestMethod.POST)
+	public @ResponseBody Message find(@RequestBody String id){
+		return userService.findUser(id);
+	}
 }
