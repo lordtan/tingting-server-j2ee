@@ -10,6 +10,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.mb.beans.common.Message;
 import com.mb.beans.momgo.FileInfo;
@@ -37,7 +38,17 @@ public class SoundService implements ISoundService, IMongoCollections{
 
 	public Message publish(InputStream content, String sound) {
 		Message mesg = Message.getInstance();
+		if(StringUtils.isEmpty(sound)){ //如果声音内容为空
+			mesg.setMsg("发布失败，声音内容为空");
+			mesg.setState(Message.SUCCESS);
+			return mesg;
+		}
 		Sound sod = JsonUtil.json2obj(sound, Sound.class);
+		if(null==sod.getGpslocation() || sod.getGpslocation().length==0){
+			double loc [] = new double[]{sod.getGpsLat(),
+					sod.getGpsLng()};
+			sod.setGpslocation(loc); //设置地理位置，方便mongodb查询
+		}
 		mongoDao.insert(sod, SOUND);
 		mongoDao.storeFile(content, sod.getFileId(), sod.getType());
 		mesg.setMsg("发布成功");

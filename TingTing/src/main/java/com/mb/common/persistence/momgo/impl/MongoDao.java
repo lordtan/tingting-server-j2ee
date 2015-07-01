@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -51,9 +54,11 @@ public class MongoDao implements IMongoDao {
 
 	public <T> List<T> geoNear(double centerX, double centerY, double radius,
 			String collectionName, Class<T> entityClass) {
-		Circle circle = new Circle(centerX, centerY, radius);
-		Query query = new Query(new Criteria().withinSphere(circle));
-		return mongoTemplate.find(query,entityClass, "sound");
+		Point po = new Point(centerX, centerY);
+		Distance dis = new Distance(radius, Metrics.KILOMETERS);
+		Circle circle = new Circle(po, dis);
+		Query query = new Query(Criteria.where("gpslocation").within(circle)); //这个gpslocation不应该写死在这，以后再说吧，先做demo
+		return mongoTemplate.find(query,entityClass, collectionName);
 	}
 	
 

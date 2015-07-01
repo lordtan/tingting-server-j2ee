@@ -11,7 +11,7 @@ public class Search {
 	
 	private double centerX;  //中心x坐标
 	private double centerY;  //中心y坐标
-	private double radius;   //半径
+	private double radius;   //半径，单位千米
 	public double getCenterX() {
 		return centerX;
 	}

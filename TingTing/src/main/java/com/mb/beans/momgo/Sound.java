@@ -15,10 +15,11 @@ public class Sound {
 	private String fileId; //声音文件id
 	private String title; //标题
 	private String type; //类型
-	private String lat; //纬度，百度/高德坐标的前一个值
-	private String lng; //经度，百度/高德坐标的后一个值
-	private String gpsLat; //从手机的gps中读取的真实纬度，不是经过百度地图转换过的
-	private String gpsLng; //从手机的gps中读取的真实 经度，不是经过百度地图转换过的
+	private double lat; //纬度，百度/高德坐标的前一个值
+	private double lng; //经度，百度/高德坐标的后一个值
+	private double gpsLat; //从手机的gps中读取的真实纬度，不是经过百度地图转换过的
+	private double gpsLng; //从手机的gps中读取的真实 经度，不是经过百度地图转换过的
+	private double [] gpslocation; //提供mongodb查询位置用
 	private String address; //当前位置地址
 	private int isActive; //是否激活，如果存在时间过长会失去激活
 	private long great; //被顶次数
@@ -62,28 +63,28 @@ public class Sound {
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
 	}
-	public String getLat() {
+	public double getLat() {
 		return lat;
 	}
-	public void setLat(String lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
-	public String getLng() {
+	public double getLng() {
 		return lng;
 	}
-	public void setLng(String lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
-	public String getGpsLat() {
+	public double getGpsLat() {
 		return gpsLat;
 	}
-	public void setGpsLat(String gpsLat) {
+	public void setGpsLat(double gpsLat) {
 		this.gpsLat = gpsLat;
 	}
-	public String getGpsLng() {
+	public double getGpsLng() {
 		return gpsLng;
 	}
-	public void setGpsLng(String gpsLng) {
+	public void setGpsLng(double gpsLng) {
 		this.gpsLng = gpsLng;
 	}
 	public long getGreat() {
@@ -115,6 +116,12 @@ public class Sound {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public double[] getGpslocation() {
+		return gpslocation;
+	}
+	public void setGpslocation(double[] gpslocation) {
+		this.gpslocation = gpslocation;
 	}
 	@Override
 	public String toString() {
