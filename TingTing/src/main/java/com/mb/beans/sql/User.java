@@ -19,6 +19,9 @@ public class User{
 	private String name; //昵称
 	private String account; //账户
 	private String password; //密码
+	private int age; //年龄
+	private int sex; //性别
+	private String phone; //电话
 	private int isActive;  //是激活，1 激活 0禁用
 	private long loginDate; //最后登录时间，格林尼治时间UT，到当前的毫秒数
 	private long createdDate;  //创建时间，格林尼治时间UT，到当前的毫秒数
@@ -40,6 +43,24 @@ public class User{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public int getSex() {
+		return sex;
+	}
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public int getIsActive() {
 		return isActive;

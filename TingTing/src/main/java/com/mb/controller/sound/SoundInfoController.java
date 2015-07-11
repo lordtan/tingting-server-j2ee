@@ -47,7 +47,7 @@ public class SoundInfoController {
 	}
 	
 	/**
-	 * 收听声音
+	 * 收听声音，后来想想还是用get，不然怎么分享
 	 * @param fileId 文件id
 	 * @param request
 	 * @param response
@@ -64,6 +64,31 @@ public class SoundInfoController {
 		   
 			file.writeTo(response.getOutputStream()); //把文件写向输出流
 			 
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}   
+	}
+	
+	/**
+	 * 用get方便分享
+	 * @param fileId
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/down",method=RequestMethod.GET)
+	public void downLoad(@RequestParam("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
+		GridFSDBFile file = soundService.listen(fileId);
+		
+		try {
+			response.setContentType("application/x-msdownload;");   
+			response.setHeader("Content-disposition", "attachment; filename="  
+					+ new String(fileId.getBytes("utf-8"), "ISO8859-1"));
+			response.setHeader("Content-Length", String.valueOf(file.getLength())); 
+			
+			file.writeTo(response.getOutputStream()); //把文件写向输出流
+			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
