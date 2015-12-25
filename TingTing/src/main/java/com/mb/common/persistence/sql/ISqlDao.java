@@ -12,7 +12,6 @@ public interface ISqlDao {
 
 	/**
 	 * 插入一条数据
-	 * @param tableName 表名
 	 * @param bean
 	 * @return
 	 */
